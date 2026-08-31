@@ -1,4 +1,4 @@
-#Team Photos
+# Team Photos
 
 Here you can find pictures of our team.
 - `funny.jpg` for the funny image

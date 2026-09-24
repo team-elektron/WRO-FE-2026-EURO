@@ -54,7 +54,7 @@ This year we have the privilege of working together with our sponsors.
 - <a href="#sponsors">Sponsors</a>
 - <a href="#team-photo">Team Photo</a>
 - <a href="#robot-gallery">Robot Gallery</a>
-- <a href="#changes-summary-from-national-competition">Changes summary from National Competition/a>
+- <a href="#changes-summary-from-the-national-competition">Changes summary from National Competition/a>
 - <a href="#technical--mechanical-specifications">Technical & Mechanical Specifications</a>
   - <a href="#mechanics--drive">Mechanics & Drive</a>
   - <a href="#electronics">Electronics</a>

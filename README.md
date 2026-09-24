@@ -5,6 +5,24 @@
 We are Team Elektron from the High School of Electrical Engineering in Sarajevo, Bosnia & Herzegovina.
 This is the public repo for our team and the work we have done on our robot for the Open Championship in Zagreb.
 
+### Sponsors
+
+This year we have the privilege of working together with our sponsors.
+
+<table>
+  <tr>
+    <td width="25%" valign="center">
+      ﻿﻿<img src="robot-photos/sponsors/EasyEDA_Horz_Blue_Trans.png" alt="EasyEDA" style="width:250px;">
+    </td>
+    <td width="25%" valign="center">
+      ﻿﻿<img src="robot-photos/sponsors/JLCPCB-logo-Blue-Trans.png" alt="JLCPCB" style="width:250px;">
+    </td>
+    <td width="25%" valign="center">
+      <center><summary><h1>Birisal D.O.O.</h1></summary></center>
+    </td>
+  </tr>
+</table>
+
 
 ### Robot Gallery
 
@@ -33,8 +51,10 @@ This is the public repo for our team and the work we have done on our robot for 
 ## Navigation
 
 - <a href="#introduction">Introduction</a>
+- <a href="#sponsors">Sponsors</a>
 - <a href="#team-photo">Team Photo</a>
 - <a href="#robot-gallery">Robot Gallery</a>
+- <a href="#changes-summary-from-national-competition">Changes summary from National Competition/a>
 - <a href="#technical--mechanical-specifications">Technical & Mechanical Specifications</a>
   - <a href="#mechanics--drive">Mechanics & Drive</a>
   - <a href="#electronics">Electronics</a>
@@ -54,7 +74,37 @@ This is the public repo for our team and the work we have done on our robot for 
   - <a href="#open-challenge">Open Challenge</a>
   - <a href="#obstacle-challenge">Obstacle Challenge</a>
 
+## Changes summary from the National competition
+Our robot base has had major improvements done to it after the National championship in Zenica, Bosnia & Hercegovina.
 
+Some of the biggest changes include:
+- New motor/shaft gear ratio
+<table>
+  <!-- Row 1: Header -->
+  <tr>
+    <th>Gear ratio (motor-shaft)</th>
+    <th>Result</th>
+    <th>Reasoning</th>
+  </tr>
+  <tr>
+    <td>3:1</td>
+    <td>Good speed, low torque/td>
+    <td>With this combination we had very good speed, however our low end torque was very low which means parking the robot in Obstacle Challenge mode was almost impossible.</td>
+  </tr>
+  <tr>
+    <td>1:1</td>
+    <td>Slow, very torquey</td>
+    <td>This gear ratio combination has really good low speed torque but it is painfully slow at full motor speed.</td>
+  </tr>
+  <tr>
+    <td>1.67:1</td>
+    <td>Decent speed, good torque</td>
+    <td>This ratio has decent speed and good torque. It is OK for obstacle challenge parking.</td>
+  </tr>
+</table>
+
+- New robot control PCB
+- New chassis design
 
 ## Technical & Mechanical Specifications
 

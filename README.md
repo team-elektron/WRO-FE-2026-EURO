@@ -26,19 +26,26 @@ This year we have the privilege of working together with our sponsors.
 
 ### Robot Gallery
 
-<p float="left">
-  <img src="robot-photos/right.jpg" width="350"/>
-  &nbsp;
-  <img src="robot-photos/Pics/servo-and-tof.jpg" width="350"/>
-</p>
-
+<table>
+  <tr>
+    <td width="25%" valign="center">
+      ﻿﻿<img src="robot-photos/right.jpg" style="width:350px;">
+    </td>
+    <td width="25%" valign="center">
+      <img src="robot-photos/Pics/servo-and-tof.jpg" style="width:350px;">
+    </td>
+  </tr>
+</table>
 
 ### Team Photo
 
-<p float="left">
-  <img src="team-photos/normal.jpg" width="350"/>
-  &nbsp;
-</p>
+<table>
+  <tr>
+    <td width="25%" valign="center">
+      ﻿﻿<img src="team-photos/normal.jpg" style="width:350px;">
+    </td>
+  </tr>
+</table>
 
 ## Folder Content
 * `team-photos` contains 2 photos of the team (an official one and one funny photo with all team members)
@@ -79,8 +86,65 @@ Our robot base has had major improvements done to it after the National champion
 
 Some of the biggest changes include:
 - New motor/shaft gear ratio
+- New robot control PCB
+- New chassis design
+
+## Technical & Mechanical Specifications
+
+### Mechanics & Drive
+- Fully custom built and 3d printed robot base
+- High torque, high speed driving system
+- Servo steering system
+
+### Electronics
+- 5Ah 2S battery pack (Li-Po)
+- Time-of-Flight distance sensors
+- Raspberry Pi 5 8GB SBC
+- Raspberry Pi Pico 2 Zero MCU
+- Full-axis IMU sensor
+- Addressable LED indicators
+- 2.4in TFT Touch Control LCD
+- Raspberry Pi Camera Module 2 160 degree FOV
+
+### Size
+- 205x135x65mm (LxWxH) without camera mount, 205x135x~150mm (LxWxH) with camera mount
+- ~490g total weight
+
 <table>
-  <!-- Row 1: Header -->
+  <tr>
+    <td width="25%" valign="center">
+      ﻿﻿<img src="robot-photos/Pics/length.png" style="width:150px;">
+    </td>
+    <td width="25%" valign="center">
+      <img src="robot-photos/Pics/width.jpg" style="width:300px;">
+    </td>
+    <td width="25%" valign="center">
+      <img src="robot-photos/Pics/weight.jpg" style="width:280px;">
+    </td>
+  </tr>
+</table>
+
+
+
+## How does it work?
+
+### Driving system
+The main driving motors are 2 N30 motors in a 1:150 configuration, then the power is transferred to the wheels with a 1.67:1 gear ratio, the motors feature hall effect sensors. 
+
+<table>
+  <tr>
+    <td width="25%" valign="center">
+      ﻿﻿<img src="robot-photos/Pics/driving-base.jpg" style="width:400px;">
+    </td>
+    <td width="25%" valign="center">
+      <img src="robot-photos/Pics/driving-base-3dprint.jpg" style="width:400px;">
+    </td>
+  </tr>
+</table>
+
+We have tested a couple different configurations (mainly 1:3, 1:1 and 1.67:1) out of which, 1.67:1 turned out to work the best for our needs. For extra torque, we decided to include 2 motors instead of one. They are connected to the DRV8833 H-Bridge IC on separate channels **BUT** the motors are connected onto one shared shaft together. The separte channels are exclusively to distribute load evenly on the IC.
+
+<table>
   <tr>
     <th>Gear ratio (motor-shaft)</th>
     <th>Result</th>
@@ -103,61 +167,17 @@ Some of the biggest changes include:
   </tr>
 </table>
 
-- New robot control PCB
-- New chassis design
-
-## Technical & Mechanical Specifications
-
-### Mechanics & Drive
-- Fully custom built and 3d printed robot base
-- High torque, medium speed driving system
-- Servo steering system
-
-### Electronics
-- 5Ah 2S battery pack (Li-Po)
-- Time-of-Flight distance sensors
-- Raspberry Pi 5 8GB SBC
-- Raspberry Pi Pico 2 Zero MCU
-- Full-axis IMU sensor
-- Addressable LED indicators
-- 2.4in TFT Touch Control LCD
-- Raspberry Pi Camera Module 2 160 degree FOV
-
-### Size
-- 205x135x65mm (LxWxH) without camera mount, 205x135x~150mm (LxWxH) with camera mount
-- ~490g total weight
-
-<p float="left">
-  <img src="robot-photos/Pics/length.png" width="150"/>
-  &nbsp;
-  <img src="robot-photos/Pics/width.jpg" width="300"/>
-  &nbsp;
-  <img src="robot-photos/Pics/weight.jpg" width="280"/>
-</p>
-
-
-
-## How does it work?
-
-### Driving system
-The main driving motors are 2 N30 motors in a 1:150 configuration, then the power is transferred to the wheels with a 1:1 gear ratio, the motors feature hall effect sensors. 
-
-<p float="left">
-  <img src="robot-photos/Pics/driving-base.jpg" width="400"/>
-  &nbsp;
-  <img src="robot-photos/Pics/driving-base-3dprint.jpg" width="400"/>
-</p>
-
-We have tested a couple different configurations (mainly 1:3 and 1:1) out of which, 3:1 turned out to work the best for our needs as these motors spin quite fast but are quite low torque. For extra torque, we decided to include 2 motors instead of one. They are connected to the DRV8833 H-Bridge IC on separate channels **BUT** the motors are connected onto one shared shaft together. The separte channels are exclusively to distribute load evenly on the IC.
-
 We are using a 110mm long and 3mm in diameter steel shaft and plastic gears.
 
 Wheels are 3D printed, each wheel being 30mm in diameter without the outer rubber bits.
 
-<p float="left">
-  <img src="robot-photos/Pics/wheel.png" width="350"/>
-  &nbsp;
-</p>
+<table>
+  <tr>
+    <td width="25%" valign="center">
+      ﻿﻿<img src="team-photos/Pics/wheel.png" style="width:350px;">
+    </td>
+  </tr>
+</table>
 
 These specific motors have 2 hall effect sensors each, one for speed and one for direction, however we are only using one set from one motor, the other one stays disconnected and should only be used in case that something goes wrong with the other motor.
 
@@ -165,25 +185,35 @@ Speed control is done via a PID algorithm handled by the Pi Pico 2.
 
 The motors are controlled by a DRV8833 IC which is current-limited to 1A per channel.
 
-<p float="left">
-  <img src="robot-photos/Pics/drv8833.jpg" width="250"/>
-  &nbsp;
-  <img src="robot-photos/Pics/driving-mech-assembled.jpg" width="450"/>
-</p>
+<table>
+  <tr>
+    <td width="25%" valign="center">
+      ﻿﻿<img src="robot-photos/Pics/drv8833.jpg" style="width:200px;">
+    </td>
+    <td width="25%" valign="center">
+      ﻿﻿<img src="robot-photos/Pics/driving-mech-assembled.jpg" style="width:450px;">
+    </td>
+  </tr>
+</table>
 
 ### Steering system
 The steering system is controlled by one main MG90S servo from Waveshare.
 
 Last year, we had issues with our steering system on the Open Championship in Ljubljana which was caused by a fake "metal" servo. Hence why we opted for higher quality full metal gear servos, and the MG90S was a great option as we didn't really need more power than that.
 
-Steering power is transferred to the wheels with a steering shaft and poles on which we tied some rubber bands to help center the steering mechanism.
-With this configuration, we are able to achieve a steering angle of 50 degrees which fits our needs nicely.
+Steering power is transferred to the wheels with a steering shaft. Front wheels have bearings on them to remove additional resistance that was present during our earlier robot versions.
+With this configuration, we are able to achieve a steering angle of 50 degrees to each side which fits our needs nicely.
 
-<p float="left">
-  <img src="robot-photos/Pics/steering-base.jpg" width="400"/>
-  &nbsp;
-  <img src="robot-photos/Pics/servo-and-tof.jpg" width="400"/>
-</p>
+<table>
+  <tr>
+    <td width="25%" valign="center">
+      ﻿﻿<img src="robot-photos/Pics/steering-base.jpg" style="width:400px;">
+    </td>
+    <td width="25%" valign="center">
+      ﻿﻿<img src="robot-photos/Pics/servo-and-tof.jpg" style="width:400px;">
+    </td>
+  </tr>
+</table>
 
 ### Power and power delivery
 We had originally thought about using a 3S battery system like we did last year, however, we switched to a 2S system now to save on space and weight. With some clever engineering tricks and overcomplication the power delivery side, that was super easy to do.

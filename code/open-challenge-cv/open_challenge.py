@@ -1,5 +1,5 @@
 """
-WRO FE Open Challenge - v2
+WRO FE Open Challenge — v3
 """
 
 import cv2
@@ -30,47 +30,73 @@ LED_DRIVING = 1
 LED_LOWBATT = 3
 
 #  Drive settings 
-SPEED_NORMAL   = 170   # TUNE ME: cruise motor speed on straights
-SPEED_TURN     = 140   # TUNE ME: motor speed while rotating through a corner
+SPEED_NORMAL   = 255   # TUNE ME: cruise motor speed on straights
+SPEED_TURN     = 230   # TUNE ME: motor speed while rotating through a corner
 SERVO_CENTER   = 100    # TUNE ME: servo value that points wheels dead straight
 SERVO_LEFT     = 140   # full-lock left (reference / for manual testing)
-SERVO_RIGHT    = 30     
+SERVO_RIGHT    = 30     # full-lock right (reference / for manual testing)
 
 #  Adaptive turn settings 
 TURN_SERVO_LEFT      = 150   # TUNE ME: full-lock servo value for a left turn
 TURN_SERVO_RIGHT     = 0     # TUNE ME: full-lock servo value for a right turn
 
 TURN_ANGLE_DEG       = 90.0  # WRO Open track corners are ~90°
-YAW_SIGN              = -1   # governs BOTH turning and straight-line heading-hold -
+YAW_SIGN              = -1   # governs BOTH turning and straight-line heading-hold —
                               # see note below. Flip to 1 if turns/heading-hold end up
                               # backwards again after this change.
 RIGHT_TURN_YAW_DELTA = TURN_ANGLE_DEG * YAW_SIGN
 LEFT_TURN_YAW_DELTA  = -TURN_ANGLE_DEG * YAW_SIGN
+# NOTE on YAW_SIGN: this one flag encodes which way your IMU's yaw moves when the
+# car physically turns right. It's used in two places that must agree:
+#   1. Turn-target math (RIGHT/LEFT_TURN_YAW_DELTA above)
+#   2. Straight-line heading-hold correction (SteeringController._servo_from_yaw_error)
+# If the car corrects the wrong way on straights (steers further off instead of
+# back toward target), or a turn times out instead of converging, flip this single
+# constant — you should never need to hand-tune the two locations separately.
 
-YAW_TURN_TOLERANCE_DEG = 8     # TUNE ME: how close to target heading counts as "turn complete"
-TURN_TAPER_START_DEG   = 35    # TUNE ME: start easing steering back to center inside this many degrees of error
-TURN_MIN_MS             = 150  # minimum time before we even check for turn completion (avoids false-complete at t=0)
-TURN_TIMEOUT_MS         = 1500 
+YAW_TURN_TOLERANCE_DEG = 5     # TUNE ME: how close to target heading counts as "turn complete"
+TURN_TAPER_START_DEG   = 60    # TUNE ME: start easing steering back to center inside this many degrees of error
+TURN_MIN_MS             = 100 #100 # minimum time before we even check for turn completion (avoids false-complete at t=0)
+TURN_TIMEOUT_MS         = 2300 # TUNE ME: failsafe — force-finish the turn if yaw never converges (sensor dropout etc.)
 TURN_STRAIGHTEN_MS      = 120  # short straight-servo pulse after rotation completes, before resuming heading hold
-TURN_LOCKOUT_MS         = 1500 
+TURN_LOCKOUT_MS         = 1500 # TUNE ME: ignore new line detections for this long after a turn finishes
 
-LINE_ROI_TOP        = 0.30
-LINE_TRIGGER_PCT    = 0.03
+LINE_ROI_TOP        = 0.75
+LINE_TRIGGER_PCT    = 0.15
 TOTAL_CORNERS        = 12      # 3 laps x 4 corners
 
 #  Heading-hold (straight-line) correction settings 
 YAW_CORRECT_GAIN   = 1.6   # TUNE ME: servo units per degree of heading error
 YAW_DEAD_ZONE      = 8.0   # TUNE ME: ignore heading error smaller than this (degrees)
-YAW_MAX_CORRECTION = 30    # TUNE ME: clamp on servo units away from center
+YAW_MAX_CORRECTION = 30   # TUNE ME: clamp on servo units away from center
 TOF_WALL_DANGER    = 150   # TUNE ME: front ToF distance (mm) that triggers an emergency stop
 
+#  ToF left/right centering (supplements yaw heading-hold on straights) 
+TOF_CENTER_GAIN         = 0.05   # TUNE ME: servo units per mm of L/R ToF difference
+TOF_CENTER_MAX_CORRECTION = 25  # TUNE ME: clamp on ToF-centering contribution alone
+TOF_CENTER_MIN_VALID_MM = 20     # TUNE ME: ignore readings below this (likely noise/too close)
+TOF_CENTER_MAX_VALID_MM = 800    # TUNE ME: ignore readings above this (likely open gap, not a wall)
+TOF_CENTER_SIGN         = -1      # TUNE ME: flip to -1 if centering pushes the car TOWARD the
+                                   # closer wall instead of away from it — verify by hand: hold
+                                   # the car closer to one wall than the other and confirm the
+                                   # correction steers it back toward center
+
+#  LAB ranges — track lines 
+# OpenCV LAB channels are all 0-255:
+#   L = lightness (0=black ... 255=white)
+#   A = green<->red (128=neutral, <128 green, >128 red/magenta)
+#   B = blue<->yellow (128=neutral, <128 blue, >128 yellow)
+#
+# These are reasonable starting points for a typical orange/blue WRO line
+# set. Run the LAB calibration tool first and click on your actual track
+# lines to dial these in for your lighting/camera — orange in particular
 # varies a lot with exposure.
 ORANGE_LOWER = np.array([80,  145, 150], dtype=np.uint8)
 ORANGE_UPPER = np.array([100, 165, 215], dtype=np.uint8)
-BLUE_LOWER   = np.array([130, 70,   0], dtype=np.uint8)
-BLUE_UPPER   = np.array([180, 105, 255], dtype=np.uint8)
+BLUE_LOWER   = np.array([130, 70,   0], dtype=np.uint8) # BLUE_LOWER   = np.array([130, 70,   0], dtype=np.uint8)   
+BLUE_UPPER   = np.array([180, 100, 255], dtype=np.uint8) #BLUE_UPPER   = np.array([180, 105, 255], dtype=np.uint8)
 
-#  Detection settings  
+#  Detection settings 
 FRAME_W, FRAME_H = 640, 480
 LEFT_ZONE        = 0.25
 RIGHT_ZONE       = 0.25
@@ -157,7 +183,7 @@ class PicoComms:
                     if crc8(body) != packet[-1]:
                         with self._lock:
                             self.crc_error_count += 1
-                        print("[COMMS] CRC mismatch - dropped")
+                        print("[COMMS] CRC mismatch — dropped")
                         continue
                     if pkt_type == TELEM_TYPE and length == 14:
                         self._parse_telemetry(body[2:])
@@ -172,11 +198,16 @@ class PicoComms:
             print(f"[COMMS] short payload: {len(payload)} bytes")
             return
         t0, t1, t2, t3, batt, yaw_raw, enc_raw = struct.unpack(">HHHHHHH", payload[:14])
-        enc = struct.unpack(">h", struct.pack(">H", enc_raw))[0]
+        # yaw_raw and enc_raw both arrive as signed int16 on the wire but get
+        # unpacked here as unsigned (">H") — round-trip through signed pack/
+        # unpack to recover the actual negative values instead of huge wrapped
+        # positives (e.g. -40.0deg showing up as ~6513.6 after /10.0).
+        yaw_signed = struct.unpack(">h", struct.pack(">H", yaw_raw))[0]
+        enc        = struct.unpack(">h", struct.pack(">H", enc_raw))[0]
         with self._lock:
             self.telemetry["tof"]     = [t0, t1, t2]
             self.telemetry["batt_mv"] = batt
-            self.telemetry["yaw"]     = yaw_raw / 10.0
+            self.telemetry["yaw"]     = yaw_signed / 10.0
             self.telemetry["enc"]     = enc
             self.packet_count        += 1
             self.last_rx_time         = time.time()
@@ -206,7 +237,27 @@ class SteeringController:
     def _servo_from_yaw_error(self, err):
         correction = int(round(err * YAW_CORRECT_GAIN * YAW_SIGN))
         correction = max(-YAW_MAX_CORRECTION, min(YAW_MAX_CORRECTION, correction))
-        return SERVO_CENTER + correction
+        return correction
+
+    def _tof_center_correction(self, tof_left, tof_right):
+        """
+        Returns a servo correction (int, can be 0) that nudges the car toward
+        the midpoint between the left/right walls, based on raw ToF distance
+        difference. Returns 0 if either reading looks invalid (too close/too
+        far/zero) rather than guessing — a bad single-side reading shouldn't
+        yank the car sideways.
+        """
+        valid_left  = TOF_CENTER_MIN_VALID_MM < tof_left  < TOF_CENTER_MAX_VALID_MM
+        valid_right = TOF_CENTER_MIN_VALID_MM < tof_right < TOF_CENTER_MAX_VALID_MM
+        if not (valid_left and valid_right):
+            return 0
+
+        # Positive diff = right wall farther away than left = car is closer to
+        # the left wall = needs to steer right (away from left) to re-center.
+        diff = (tof_right - tof_left) * TOF_CENTER_SIGN
+        correction = int(round(diff * TOF_CENTER_GAIN))
+        correction = max(-TOF_CENTER_MAX_CORRECTION, min(TOF_CENTER_MAX_CORRECTION, correction))
+        return correction
 
     def reset_target_yaw(self, yaw):
         self.target_yaw = yaw
@@ -215,10 +266,12 @@ class SteeringController:
     def update(self, telemetry, telemetry_fresh):
         yaw     = telemetry["yaw"]
         self.current_yaw = yaw
-        tof_fwd = telemetry["tof"][0]
+        tof_fwd   = telemetry["tof"][0]
+        tof_left  = telemetry["tof"][1]
+        tof_right = telemetry["tof"][2]
 
         if not telemetry_fresh:
-            # No live yaw feedback - don't pretend to correct heading against a
+            # No live yaw feedback — don't pretend to correct heading against a
             # frozen reading, that just locks in whatever the car is already
             # doing (including any physical steering bias). Drive straight,
             # uncorrected, and let the HUD warning make the problem visible.
@@ -235,9 +288,20 @@ class SteeringController:
             print(f"[STEER] Wall danger! ToF front={tof_fwd}mm")
             return
 
-        # Hold heading with proportional yaw correction
-        err   = yaw_error(yaw, self.target_yaw)
-        servo = self._servo_from_yaw_error(err) if abs(err) > YAW_DEAD_ZONE else SERVO_CENTER
+        # Yaw heading-hold (primary — keeps the car pointed the right direction)
+        err = yaw_error(yaw, self.target_yaw)
+        yaw_correction = self._servo_from_yaw_error(err) if abs(err) > YAW_DEAD_ZONE else 0
+
+        # ToF left/right centering (secondary — nudges toward the middle of
+        # the track). Added on top of yaw correction, not a replacement for
+        # it, so a correct heading with slight off-center position still
+        # gets pulled back toward the middle without fighting the heading-hold.
+        tof_correction = self._tof_center_correction(tof_left, tof_right)
+
+        total_correction = yaw_correction + tof_correction
+        total_correction = max(-YAW_MAX_CORRECTION - TOF_CENTER_MAX_CORRECTION,
+                                min(YAW_MAX_CORRECTION + TOF_CENTER_MAX_CORRECTION, total_correction))
+        servo = SERVO_CENTER + total_correction
         self.comms.send(DIR_FWD, SPEED_NORMAL, servo, LED_DRIVING)
 
 
@@ -332,10 +396,10 @@ class Navigator:
 
             if rotate_done:
                 if elapsed_ms >= TURN_TIMEOUT_MS and abs_err > YAW_TURN_TOLERANCE_DEG:
-                    print(f"[NAV] Turn TIMED OUT - yaw err={err:+.1f}° after {elapsed_ms:.0f}ms "
+                    print(f"[NAV] Turn TIMED OUT — yaw err={err:+.1f}° after {elapsed_ms:.0f}ms "
                           f"(check YAW_SIGN / IMU wiring if this happens often)")
                 else:
-                    print(f"[NAV] Rotation complete - yaw err={err:+.1f}°  took {elapsed_ms:.0f}ms")
+                    print(f"[NAV] Rotation complete — yaw err={err:+.1f}°  took {elapsed_ms:.0f}ms")
                 self._turn_phase     = self.PHASE_STRAIGHTEN
                 self._straighten_end = now + (TURN_STRAIGHTEN_MS / 1000.0)
                 return
@@ -358,7 +422,7 @@ class Navigator:
                 self.state       = self.DRIVING
                 self._turn_phase = None
                 self._lockout_until = now + (TURN_LOCKOUT_MS / 1000.0)
-                print(f"[NAV] Turn done - corners={self.corners}  lap={self.lap+1}")
+                print(f"[NAV] Turn done — corners={self.corners}  lap={self.lap+1}")
 
     #  corner trigger 
     def _handle_line(self, line, yaw, now):
@@ -372,12 +436,12 @@ class Navigator:
         yaw_delta         = RIGHT_TURN_YAW_DELTA if turning_right else LEFT_TURN_YAW_DELTA
         self.corners     += 1
 
-        print(f"[NAV] Corner {self.corners}/{TOTAL_CORNERS} - turning {turn_name}  "
+        print(f"[NAV] Corner {self.corners}/{TOTAL_CORNERS} — turning {turn_name}  "
               f"(lap {self.lap+1}, corner {self.corner_in_lap}/4)  "
               f"start_yaw={yaw:.1f}°  target_yaw={(yaw + yaw_delta) % 360:.1f}°")
 
         if self.corners >= TOTAL_CORNERS:
-            print("[NAV] 3 laps complete - stopping!")
+            print("[NAV] 3 laps complete — stopping!")
             self.state = self.DONE
             self.comms.stop()
             return
@@ -410,21 +474,27 @@ def draw_overlay(frame, telemetry, nav):
     colours = [(255, 255, 255)] * len(hud)
 
     if not telemetry.get("_fresh", True):
-        hud.append("!! NO TELEMETRY FROM PICO - yaw/heading-hold/adaptive-turn disabled !!")
+        hud.append("!! NO TELEMETRY FROM PICO — yaw/heading-hold/adaptive-turn disabled !!")
         colours.append((0, 0, 255))
 
     for i, (line, colour) in enumerate(zip(hud, colours)):
         cv2.putText(frame, line, (10, 28 + i * 24),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.55, colour, 2)
-    cv2.putText(frame, "WRO FE - Open Challenge (adaptive turn v2)", (10, h - 10),
+    cv2.putText(frame, "WRO FE — Open Challenge (adaptive turn v2)", (10, h - 10),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (180, 180, 180), 1)
     return frame
 
 
 #  Main 
 picam2 = Picamera2()
+# Full-FOV fix confirmed via check_sensor_modes.py on this IMX219 module:
+# a main-only config at low output res implicitly selects a cropped, narrow
+# sensor mode. Pinning raw={"size": (1640, 1232)} forces the binned mode
+# whose crop_limits cover the FULL sensor (0,0,3280,2464) at up to ~41.85fps,
+# while main stays small/fast for processing and display.
 picam2.configure(picam2.create_preview_configuration(
-    main={"size": (FRAME_W, FRAME_H), "format": "RGB888"}
+    main={"size": (FRAME_W, FRAME_H), "format": "RGB888"},
+    raw={"size": (1640, 720)}
 ))
 picam2.set_controls({
     "AeEnable": True, "AwbEnable": True, "AwbMode": 0,
@@ -438,7 +508,7 @@ nav      = Navigator(comms, steering)
 line_det = LineDetector()
 show_debug = False
 
-print("WRO FE Open Challenge v2 - 'q' quit  'd' debug masks")
+print("WRO FE Open Challenge v2 — 'q' quit  'd' debug masks")
 
 _last_diag_print = 0.0
 # before the main loop, after comms/steering are constructed:
@@ -464,17 +534,21 @@ try:
         frame     = picam2.capture_array()
         telemetry = comms.get_telemetry()
         fresh     = comms.telemetry_fresh()
-        telemetry["_fresh"] = fresh   
+        telemetry["_fresh"] = fresh   # HUD-only flag, not sent over the wire
+
+        # Print a raw-serial diagnostic banner every 2s until telemetry is live.
+        # raw_bytes==0 -> nothing arriving at all (wiring/port/baud problem).
+        # raw_bytes>0 but packets==0 -> receiving noise/misaligned data.
         now_diag = time.time()
         if not fresh and (now_diag - _last_diag_print) > 2.0:
             s = comms.stats()
             if s["packets"] == 0 and s["raw_bytes"] == 0:
-                print("[DIAG] No bytes received on serial at all - check wiring "
+                print("[DIAG] No bytes received on serial at all — check wiring "
                       "(Pi RX<->Pico TX), SERIAL_PORT, baud rate, and that "
                       "ttyAMA0 isn't claimed by Bluetooth/serial console on the Pi.")
             elif s["packets"] == 0:
                 print(f"[DIAG] Receiving bytes ({s['raw_bytes']} so far) but no valid "
-                      f"packets parsed yet (crc_errs={s['crc_errs']}) - check baud rate "
+                      f"packets parsed yet (crc_errs={s['crc_errs']}) — check baud rate "
                       f"and that the Pico's telemetry frame matches the expected format.")
             else:
                 print(f"[DIAG] Telemetry stale for {s['age']:.1f}s "

@@ -256,7 +256,7 @@ The Pi 5 communicates with the Pi Pico 2 Zero through UART on pins GP14/15 (and 
 
 Workloads are distributed between both the SBC and the MCU like this:
 <p float="left">
-  <img src="robo-photos/Pics/comms-topology.png" width="350"/>
+  <img src="robot-photos/Pics/comms-topology.png" width="350"/>
   &nbsp;
 </p>
 

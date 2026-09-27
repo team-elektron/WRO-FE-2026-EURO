@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" viewBox="0 0 680 1020" style="background:#ffffff; font-family: Arial, sans-serif;">
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+<marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="#185FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+<marker id="arrow-teal" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="#0F6E56" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+<marker id="arrow-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="#5F5E5A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+
+<!-- BOOT -->
+<rect x="240" y="20" width="200" height="44" rx="8" fill="#D3D1C7" stroke="#5F5E5A" stroke-width="0.5"/>
+<text x="340" y="44" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="600" fill="#2C2C2A">Boot / setup()</text>
+
+<line x1="340" y1="64" x2="340" y2="84" stroke="#5F5E5A" stroke-width="1" marker-end="url(#arrow-gray)"/>
+
+<!-- Init hardware -->
+<rect x="190" y="84" width="300" height="56" rx="8" fill="#B5D4F4" stroke="#185FA5" stroke-width="0.5"/>
+<text x="340" y="104" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="600" fill="#0C447C">Init hardware</text>
+<text x="340" y="124" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#185FA5">motors, encoder, PID, Wire, mutex</text>
+
+<line x1="340" y1="140" x2="340" y2="160" stroke="#185FA5" stroke-width="1" marker-end="url(#arrow-blue)"/>
+
+<!-- Launch Core 1 -->
+<rect x="190" y="160" width="300" height="56" rx="8" fill="#B5D4F4" stroke="#185FA5" stroke-width="0.5"/>
+<text x="340" y="180" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="600" fill="#0C447C">Launch Core 1</text>
+<text x="340" y="200" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#185FA5">wait for ToF init signal via FIFO</text>
+
+<line x1="340" y1="216" x2="340" y2="236" stroke="#185FA5" stroke-width="1" marker-end="url(#arrow-blue)"/>
+
+<!-- Init IMU -->
+<rect x="190" y="236" width="300" height="44" rx="8" fill="#B5D4F4" stroke="#185FA5" stroke-width="0.5"/>
+<text x="340" y="258" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="600" fill="#0C447C">Init IMU, enable motion</text>
+
+<!-- Split line -->
+<line x1="340" y1="280" x2="340" y2="300" stroke="#888780" stroke-width="0.5"/>
+<line x1="160" y1="300" x2="520" y2="300" stroke="#888780" stroke-width="0.5"/>
+<line x1="160" y1="300" x2="160" y2="320" stroke="#0F6E56" stroke-width="1" marker-end="url(#arrow-teal)"/>
+<line x1="520" y1="300" x2="520" y2="320" stroke="#185FA5" stroke-width="1" marker-end="url(#arrow-blue)"/>
+
+<!-- CORE 0 header -->
+<rect x="40" y="320" width="240" height="34" rx="8" fill="#378ADD" stroke="#185FA5" stroke-width="0.5"/>
+<text x="160" y="337" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="600" fill="#ffffff">Core 0 — loop()</text>
+
+<!-- CORE 1 header -->
+<rect x="400" y="320" width="240" height="34" rx="8" fill="#1D9E75" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="520" y="337" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="600" fill="#ffffff">Core 1 — core1_main()</text>
+
+<!-- CORE 0 boxes -->
+<line x1="160" y1="354" x2="160" y2="374" stroke="#185FA5" stroke-width="1" marker-end="url(#arrow-blue)"/>
+<rect x="40" y="374" width="240" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="160" y="394" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="600" fill="#0C447C">IMU update — 20ms</text>
+<text x="160" y="414" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#185FA5">gyro bias, deadband, yaw LP filter</text>
+
+<line x1="160" y1="430" x2="160" y2="450" stroke="#185FA5" stroke-width="1" marker-end="url(#arrow-blue)"/>
+<rect x="40" y="450" width="240" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="160" y="470" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="600" fill="#0C447C">Servo update — 20ms</text>
+<text x="160" y="490" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#185FA5">slew toward target angle</text>
+
+<line x1="160" y1="506" x2="160" y2="526" stroke="#185FA5" stroke-width="1" marker-end="url(#arrow-blue)"/>
+<rect x="40" y="526" width="240" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="160" y="546" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="600" fill="#0C447C">PID update — 10ms</text>
+<text x="160" y="566" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#185FA5">read RPM, compute PWM</text>
+
+<line x1="160" y1="582" x2="160" y2="602" stroke="#185FA5" stroke-width="1" marker-end="url(#arrow-blue)"/>
+
+<!-- Fault decision diamond -->
+<polygon points="160,602 280,624 160,646 40,624" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="160" y="624" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="600" fill="#0C447C">Fault / stop?</text>
+
+<!-- Yes branch left -->
+<line x1="40" y1="624" x2="20" y2="624" stroke="#185FA5" stroke-width="0.5"/>
+<line x1="20" y1="624" x2="20" y2="680" stroke="#185FA5" stroke-width="0.5"/>
+<line x1="20" y1="680" x2="40" y2="680" stroke="#185FA5" stroke-width="1" marker-end="url(#arrow-blue)"/>
+<text x="26" y="618" font-size="11" fill="#185FA5">yes</text>
+
+<rect x="40" y="658" width="240" height="44" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="160" y="680" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="600" fill="#0C447C">Stop motors, reset PID</text>
+
+<!-- No branch down -->
+<line x1="160" y1="646" x2="160" y2="720" stroke="#185FA5" stroke-width="1" marker-end="url(#arrow-blue)"/>
+<text x="168" y="686" font-size="11" fill="#185FA5">no</text>
+
+<rect x="40" y="720" width="240" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="160" y="740" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="600" fill="#0C447C">Drive motors + servo</text>
+<text x="160" y="760" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#185FA5">fwd/bwd PWM via DRV8833</text>
+
+<line x1="160" y1="776" x2="160" y2="796" stroke="#185FA5" stroke-width="1" marker-end="url(#arrow-blue)"/>
+<rect x="40" y="796" width="240" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="160" y="816" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="600" fill="#0C447C">Telemetry — 100ms</text>
+<text x="160" y="836" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#185FA5">yaw x10, enc ticks to state</text>
+
+<!-- CORE 1 boxes -->
+<line x1="520" y1="354" x2="520" y2="374" stroke="#0F6E56" stroke-width="1" marker-end="url(#arrow-teal)"/>
+<rect x="400" y="374" width="240" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="520" y="394" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="600" fill="#085041">ToF update — continuous</text>
+<text x="520" y="414" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#0F6E56">non-blocking, median + LP filter</text>
+
+<line x1="520" y1="430" x2="520" y2="450" stroke="#0F6E56" stroke-width="1" marker-end="url(#arrow-teal)"/>
+<rect x="400" y="450" width="240" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="520" y="470" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="600" fill="#085041">UART receive — 10ms</text>
+<text x="520" y="490" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#0F6E56">parse cmd, apply flags</text>
+
+<line x1="520" y1="506" x2="520" y2="526" stroke="#0F6E56" stroke-width="1" marker-end="url(#arrow-teal)"/>
+<rect x="400" y="526" width="240" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="520" y="546" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="600" fill="#085041">UART send — 100ms</text>
+<text x="520" y="566" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#0F6E56">ToF, battery, yaw, enc ticks</text>
+
+<line x1="520" y1="582" x2="520" y2="602" stroke="#0F6E56" stroke-width="1" marker-end="url(#arrow-teal)"/>
+<rect x="400" y="602" width="240" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="520" y="622" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="600" fill="#085041">Battery — 1000ms</text>
+<text x="520" y="642" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#0F6E56">ADC read, mv, low bat check</text>
+
+<line x1="520" y1="658" x2="520" y2="678" stroke="#0F6E56" stroke-width="1" marker-end="url(#arrow-teal)"/>
+<rect x="400" y="678" width="240" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="520" y="698" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="600" fill="#085041">LED update — 20ms</text>
+<text x="520" y="718" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#0F6E56">fault / low bat / Pi command</text>
+
+<!-- Loop back arrows -->
+<line x1="40" y1="824" x2="20" y2="824" stroke="#185FA5" stroke-width="0.5"/>
+<line x1="20" y1="824" x2="20" y2="362" stroke="#185FA5" stroke-width="0.5"/>
+<line x1="20" y1="362" x2="40" y2="362" stroke="#185FA5" stroke-width="1" marker-end="url(#arrow-blue)"/>
+
+<line x1="640" y1="706" x2="660" y2="706" stroke="#0F6E56" stroke-width="0.5"/>
+<line x1="660" y1="706" x2="660" y2="362" stroke="#0F6E56" stroke-width="0.5"/>
+<line x1="660" y1="362" x2="640" y2="362" stroke="#0F6E56" stroke-width="1" marker-end="url(#arrow-teal)"/>
+
+<!-- Shared state -->
+<rect x="255" y="866" width="170" height="56" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5" stroke-dasharray="5 3"/>
+<text x="340" y="886" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="600" fill="#2C2C2A">Shared state</text>
+<text x="340" y="906" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#5F5E5A">mutex-protected g_state</text>
+
+<line x1="160" y1="852" x2="260" y2="880" stroke="#888780" stroke-width="0.5" marker-end="url(#arrow)"/>
+<line x1="520" y1="734" x2="420" y2="878" stroke="#888780" stroke-width="0.5" marker-end="url(#arrow)"/>
+
+<!-- Wire mutex -->
+<rect x="255" y="950" width="170" height="44" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5" stroke-dasharray="5 3"/>
+<text x="340" y="966" text-anchor="middle" dominant-baseline="central" font-size="14" font-weight="600" fill="#2C2C2A">Wire mutex</text>
+<text x="340" y="984" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#5F5E5A">I2C serialised across cores</text>
+<line x1="340" y1="922" x2="340" y2="950" stroke="#888780" stroke-width="0.5" marker-end="url(#arrow)"/>
+
+</svg>

@@ -201,7 +201,7 @@ The steering system is controlled by one main MG90S servo from Waveshare.
 
 Last year, we had issues with our steering system on the Open Championship in Ljubljana which was caused by a fake "metal" servo. Hence why we opted for higher quality full metal gear servos, and the MG90S was a great option as we didn't really need more power than that.
 
-Steering power is transferred to the wheels with a steering shaft. Front wheels have bearings on them to remove additional resistance that was present during our earlier robot versions.
+Steering power is transferred to the wheels via a steering shaft. Front wheels have bearings in them to remove drift caused by play in the old mechanism it is also used to decrease rolling resistance.
 With this configuration, we are able to achieve a steering angle of 50 degrees to each side which fits our needs nicely.
 
 <table>

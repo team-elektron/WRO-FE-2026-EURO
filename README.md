@@ -387,14 +387,11 @@ These 2 components communicate via UART.
 </p>
 
 ### Open Challenge
-For the open challenge we use a simple script that lives on the Pi Pico 2 Zero.
 
-<p float="left">
-  <img src="robot-photos/Pics/open-topology.png" width="350"/>
-  &nbsp;
-</p>
 
-The code works by initiating a FOR loop which runs for a preset amount of times (turns). 
-Main logic works by utilizing the side sensors as a line follower, and using the front distance sensor as a wall detector. 
+Our open code works by scanning for the color coded lines on the track using its camera. After a line is detected the robot uses its IMU sensor to turn exactly 90 degrees once the turn is completed it uses its ToF sensors to center to the walls. It counts laps and corners after all 3 laps are completed it continues to its starting position where it finishes its run. This year we are using LAB color space to decrease false detections.
 
-Basically, go forward until front distance drops below 100cm, then initiate a 90 degree turn in the direction that the robot figures out by looking at which of the 2 side sensors is out of range (the side thats out of range is the side with no wall, so turn towards that one). It repeats this whole process approximately 12 times. 4 turns per lap, 3 laps total.
+
+### Obstacle challenge
+
+On the first lap the robot maps out the walls and obstacles using the camera and ToF sensors to make the other laps easier. When an obstacle is detected the robot runs 4 seperate simulations to confirm if it can pass the obstacle safely or must reverse and re adjust. If a obstacle appears right after or right before a turn the robot will use its front and back ToF sensors to confirm that it is safe to reverse and adjust to pass the obstacle on the correct side and safely complete the turn. The mapping we use also makes parking easier as when the robot starts in the parking area it simultaneously maps out the parking box so parking itself is a much simpler task.

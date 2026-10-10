@@ -394,4 +394,15 @@ Our open code works by scanning for the color coded lines on the track using its
 
 ### Obstacle challenge
 
+<table>
+  <tr>
+    <td width="25%" valign="center">
+      ﻿﻿<img src="robot-photos/Pics/obstacle-det-1.jpg" style="width:350px;">
+    </td>
+    <td width="25%" valign="center">
+      <img src="robot-photos/Pics/obstacle-det-2.jpg" style="width:350px;">
+    </td>
+  </tr>
+</table>
+
 On the first lap the robot maps out the walls and obstacles using the camera and ToF sensors to make the other laps easier. When an obstacle is detected the robot runs 4 seperate simulations to confirm if it can pass the obstacle safely or must reverse and re adjust. If a obstacle appears right after or right before a turn the robot will use its front and back ToF sensors to confirm that it is safe to reverse and adjust to pass the obstacle on the correct side and safely complete the turn. The mapping we use also makes parking easier as when the robot starts in the parking area it simultaneously maps out the parking box so parking itself is a much simpler task.

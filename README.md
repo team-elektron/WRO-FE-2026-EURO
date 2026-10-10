@@ -174,7 +174,7 @@ Wheels are 3D printed, each wheel being 30mm in diameter without the outer rubbe
 <table>
   <tr>
     <td width="25%" valign="center">
-      ﻿﻿<img src="team-photos/Pics/wheel.png" style="width:350px;">
+      ﻿﻿<img src="robot-photos/Pics/wheel.png" style="width:350px;">
     </td>
   </tr>
 </table>

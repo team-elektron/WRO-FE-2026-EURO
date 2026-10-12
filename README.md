@@ -26,8 +26,12 @@ We thank our sponsors for supporting the development and manufacturing of the ro
 
 <table>
   <tr>
-    <td><img src="robot-photos/side.jpeg" alt="Side view of the robot" width="390"></td>
-    <td><img src="robot-photos/Pics/servo-and-tof.jpg" alt="Steering and front sensor assembly" width="390"></td>
+    <td><img src="robot-photos/side.jpeg" alt="Side view of the robot" width="300"></td>
+    <td><img src="robot-photos/front.jpeg" alt="Steering and front sensor assembly" width="300"></td>
+  </tr>
+  <tr>
+    <td><img src="robot-photos/left.jpeg" alt="Steering and front sensor assembly" width="300"></td>
+    <td><img src="robot-photos/right.jpeg" alt="Steering and front sensor assembly" width="300"></td>
   </tr>
 </table>
 
@@ -105,7 +109,7 @@ The redesigned drive module uses a 1:1.67 transfer gearbox and tighter tolerance
       <img src="robot-photos/side.jpeg" style="width:350px;">
     </td>
     <td width="25%" valign="center">
-      <img src="robot-photos/Pics/servo-and-tof.jpg" style="width:350px;">
+      <img src="robot-photos/Pics/newsteer.jpeg" style="width:350px;">
     </td>
   </tr>
 </table>
@@ -124,7 +128,7 @@ The wheels are 3D printed and measure 30 mm in diameter before the rubber tread 
   <tr>
     <td><img src="robot-photos/Pics/wheel.png" alt="Printed wheel" width="280"></td>
     <td><img src="robot-photos/Pics/drv8833.jpg" alt="DRV8833 motor driver" width="220"></td>
-    <td><img src="robot-photos/Pics/driving-mech-assembled.jpg" alt="Assembled drive system" width="390"></td>
+    <td><img src="robot-photos/rear.jpeg" alt="Assembled drive system" width="390"></td>
   </tr>
 </table>
 
@@ -142,8 +146,7 @@ The steering assembly has three printed parts:
 
 <table>
   <tr>
-    <td><img src="robot-photos/Pics/steering-base.jpg" alt="Steering base" width="400"></td>
-    <td><img src="robot-photos/Pics/steer-mech.png" alt="Steering mechanism" width="400"></td>
+    <td><img src="robot-photos/Pics/newsteer.jpeg" alt="Steering base" width="400"></td>
   </tr>
 </table>
 
@@ -157,7 +160,7 @@ A new battery hot-swap mechanism allows the battery to be removed and replaced w
 
 The new camera tower is also modular and printable as two separate pieces. This makes it easier to print, replace, and adjust without remaking the main chassis.
 
-<img src="robot-photos/Pics/chassis-batt.png" alt="Chassis and battery layout" width="500">
+<img src="robot-photos/Pics/newchassis.png" alt="Chassis and battery layout" width="500">
 
 ## Electrical and power system
 

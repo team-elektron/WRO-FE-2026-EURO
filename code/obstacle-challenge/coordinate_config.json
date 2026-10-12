@@ -1,0 +1,18 @@
+{
+  "wheelbase_mm": 160.0,
+  "width_mm": 135.0,
+  "front_from_rear_axle_mm": 210.0,
+  "rear_overhang_mm": 50.0,
+  "left_tof_origin_mm": null,
+  "right_tof_origin_mm": null,
+  "front_tof_origin_mm": null,
+  "rear_tof_origin_mm": null,
+  "ticks_per_mm": 2.87,
+  "steering_table": [],
+  "ground_pixels": [],
+  "ground_mm": [],
+  "ground_triangles": [],
+  "ground_quads": [],
+  "validation_pixels": [],
+  "validation_mm": []
+}

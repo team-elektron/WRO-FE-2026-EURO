@@ -201,6 +201,12 @@ A dedicated BQ29209DRBR battery-balancer circuit provides approximately 210 mA b
 
 The previous board had no main robot power switch. The new PCB fixes this and also improves connector placement so the power, sensors, motors, and communication wiring fit the physical layout more cleanly.
 
+<table>
+  <tr>
+    <td><img src="robot-photos/Pics/chg.png" alt="" width="380"></td>
+  </tr>
+</table>
+
 ### Smart charging and fuel-gauge behavior
 
 The Pico 2 acts as the connection between the charging system and Raspberry Pi 5. It monitors the charger, battery voltage, cell state, charging current, and temperature information, then exposes the relevant data through the Pi UART, native USB debug interface, and addressable LEDs.
@@ -237,6 +243,12 @@ On the previous PCB, all sensors were wired to one I2C line with shared pull-up 
 The side sensors are used for wall centering. The front sensor checks forward clearance, while the rear sensor supports reversing and obstacle maneuvers close to corners.
 
 The multiplexer is controlled by the Pico 2 firmware described in the Pi 5 to Pico communication bridge. Before each transfer, the firmware selects the required channel, communicates with one device, and deselects the branch. This architecture removes the shared-bus resistance problem and makes individual sensor faults easier to detect and recover from.
+
+<table>
+  <tr>
+    <td><img src="robot-photos/Pics/vl53l0x.jpg" alt="" width="380"></td>
+  </tr>
+</table>
 
 ### IMU
 

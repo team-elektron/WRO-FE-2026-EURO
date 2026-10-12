@@ -376,8 +376,8 @@ The custom PCB was designed in EasyEDA and manufactured with sponsorship from JL
 
 <table>
   <tr>
-    <td><img src="robot-photos/Pics/pcb1.jpg" alt="PCB assembly" width="360"></td>
-    <td><img src="robot-photos/Pics/pcb2.png" alt="Completed PCB" width="360"></td>
+    <td><img src="robot-photos/Pics/newpcb1.jpeg" alt="PCB assembly" width="360"></td>
+    <td><img src="robot-photos/Pics/newpcb2.jpeg" alt="Completed PCB" width="360"></td>
   </tr>
 </table>
 

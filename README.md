@@ -29,7 +29,7 @@ This year we have the privilege of working together with our sponsors.
 <table>
   <tr>
     <td width="25%" valign="center">
-      ﻿﻿<img src="robot-photos/right.jpg" style="width:350px;">
+      ﻿﻿<img src="robot-photos/side.jpeg" style="width:350px;">
     </td>
     <td width="25%" valign="center">
       <img src="robot-photos/Pics/servo-and-tof.jpg" style="width:350px;">
